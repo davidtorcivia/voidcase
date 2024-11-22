@@ -1,0 +1,19 @@
+{{define "content"}}
+<div class="projects-grid">
+    {{range .Projects}}
+    <article class="project-card">
+        <a href="/project/{{.ID}}">
+            {{if .Images}}
+            <img src="/uploads/images/{{index .Images 0 | printf "%s.jpg"}}" alt="{{.Title}}">
+            {{end}}
+            <h2>{{.Title}}</h2>
+            <div class="tags">
+                {{range .Tags}}
+                <span class="tag">{{.}}</span>
+                {{end}}
+            </div>
+        </a>
+    </article>
+    {{end}}
+</div>
+{{end}}

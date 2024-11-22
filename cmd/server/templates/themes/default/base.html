@@ -1,0 +1,26 @@
+{{define "layout"}}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{.Title}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/css/{{.Theme}}/main.css">
+    {{.TrackingCode}}
+</head>
+<body class="theme-{{.Theme}}">
+    <nav>
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+        {{range .Navigation}}
+        <a href="/tag/{{.}}" class="{{if eq . $.CurrentTag}}active{{end}}">{{.}}</a>
+        {{end}}
+        {{if .IsAdmin}}
+        <a href="/admin">Admin</a>
+        {{end}}
+    </nav>
+    <main>
+        {{template "content" .}}
+    </main>
+</body>
+</html>
+{{end}}

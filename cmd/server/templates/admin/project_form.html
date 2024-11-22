@@ -1,0 +1,73 @@
+{{define "content"}}
+<div class="project-form">
+    <div class="form-header">
+        <a href="/admin/projects" class="button secondary">← Back to Projects</a>
+        <h1>{{if .Project}}Edit{{else}}New{{end}} Project</h1>
+    </div>
+    
+    <form method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="gorilla.csrf.Token" value="{{.CSRFToken}}">
+        
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" id="title" name="title" value="{{if .Project}}{{.Project.Title}}{{end}}" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="date">Date</label>
+            <input type="date" id="date" name="date" 
+                value="{{if .Project}}{{if .Project.Date}}{{.Project.Date.Format "2006-01-02"}}{{else}}{{now | formatDate}}{{end}}{{else}}{{now | formatDate}}{{end}}" 
+                required>
+        </div>
+        
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" name="description">{{if .Project}}{{.Project.Description}}{{end}}</textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="video_embed">Video Embed Code</label>
+            <textarea id="video_embed" name="video_embed">{{if .Project}}{{.Project.VideoEmbed}}{{end}}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Categories</label>
+            <div class="category-checkboxes">
+                {{range $cat := .CoreCategories}}
+                <label class="checkbox-label">
+                    <input type="checkbox" name="categories[]" value="{{$cat}}"
+                        {{if contains $.Project.Tags $cat}}checked{{end}}>
+                    {{$cat}}
+                </label>
+                {{end}}
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="custom_tags">Additional Tags</label>
+            <input type="text" id="custom_tags" name="custom_tags" 
+                   value="{{range .Project.Tags}}{{if not (isCoreCategory .)}}{{.}}, {{end}}{{end}}"
+                   placeholder="Separate with commas">
+        </div>
+
+        <div class="form-group">
+            <label for="images">Images</label>
+            <input type="file" id="images" name="images[]" multiple accept="image/*">
+            <div class="help-text">Hold Ctrl/Cmd to select multiple images</div>
+        </div>
+
+        {{if .Project.Images}}
+        <div class="existing-images">
+            {{range .Project.Images}}
+            <div class="image-preview">
+                <img src="/uploads/thumbnails/{{.Hash}}.jpg" alt="">
+                <button type="button" class="remove-image" data-image-id="{{.ID}}">×</button>
+            </div>
+            {{end}}
+        </div>
+        {{end}}
+
+        <button type="submit" class="button">Save Project</button>
+    </form>
+</div>
+{{end}}

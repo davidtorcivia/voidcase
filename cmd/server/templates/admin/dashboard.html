@@ -1,0 +1,47 @@
+{{define "content"}}
+<div class="admin-dashboard">
+    <div class="dashboard-grid">
+        <div class="dashboard-card">
+            <h2>Recent Projects</h2>
+            <div class="project-list">
+                {{range .RecentProjects}}
+                <div class="project-item">
+                    <a href="/admin/project/{{.ID}}/edit">{{.Title}}</a>
+                    <span class="date">{{.Date.Format "2006-01-02"}}</span>
+                </div>
+                {{end}}
+            </div>
+        </div>
+
+        <div class="dashboard-card">
+            <h2>Analytics</h2>
+            <div class="stat-list">
+                {{if .Analytics}}
+                <div class="stat-item">
+                    <span class="label">Total Views</span>
+                    <span class="value">{{.Analytics.TotalViews}}</span>
+                </div>
+                {{range $path, $count := .Analytics.TopPages}}
+                <div class="stat-item">
+                    <span class="label">{{$path}}</span>
+                    <span class="count">{{$count}} views</span>
+                </div>
+                {{end}}
+                {{end}}
+            </div>
+        </div>
+
+        <div class="dashboard-card">
+            <h2>Categories</h2>
+            <div class="category-list">
+                {{range .Categories}}
+                <div class="category-item">
+                    <span class="label">{{.Name}}</span>
+                    <span class="count">{{.Count}} projects</span>
+                </div>
+                {{end}}
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}

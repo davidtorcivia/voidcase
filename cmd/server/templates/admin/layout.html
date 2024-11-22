@@ -1,0 +1,33 @@
+{{define "layout"}}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{.Title}} - Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/css/main.css">
+</head>
+<body class="admin">
+    {{if .IsAdmin}}
+    <nav class="admin-nav">
+        <div class="admin-nav-brand">
+            <a href="/admin">Film CMS Admin</a>
+        </div>
+        <div class="admin-nav-items">
+            <a href="/admin/projects">Projects</a>
+            <a href="/admin/analytics">Analytics</a>
+            <a href="/admin/config">Settings</a>
+            <a href="/" target="_blank">View Site</a>
+            <form method="POST" action="/logout" class="logout-form">
+                <input type="hidden" name="gorilla.csrf.Token" value="{{.CSRFToken}}">
+                <button type="submit">Logout</button>
+            </form>
+        </div>
+    </nav>
+    {{end}}
+    
+    <main>
+        {{template "content" .}}
+    </main>
+</body>
+</html>
+{{end}}

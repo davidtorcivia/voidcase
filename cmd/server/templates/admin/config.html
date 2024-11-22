@@ -1,0 +1,34 @@
+{{define "content"}}
+<div class="config-form">
+    <h1>Site Configuration</h1>
+    <form method="POST" action="/admin/config">
+        <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
+        
+        <div class="form-group">
+            <label for="about_text">About Text</label>
+            <textarea name="about_text" id="about_text">{{.Config.AboutText}}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="contact_info">Contact Information</label>
+            <textarea name="contact_info" id="contact_info">{{.Config.ContactInfo}}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="tracking_code">Custom Tracking Code</label>
+            <textarea name="tracking_code" id="tracking_code">{{.Config.TrackingCode}}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="theme_name">Theme</label>
+            <select name="theme_name" id="theme_name">
+                <option value="default" {{if eq .Config.ThemeName "default"}}selected{{end}}>Default</option>
+                <option value="minimal" {{if eq .Config.ThemeName "minimal"}}selected{{end}}>Minimal</option>
+                <option value="grid" {{if eq .Config.ThemeName "grid"}}selected{{end}}>Grid</option>
+            </select>
+        </div>
+
+        <button type="submit" class="button">Save Configuration</button>
+    </form>
+</div>
+{{end}}

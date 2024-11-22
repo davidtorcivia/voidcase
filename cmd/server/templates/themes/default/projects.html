@@ -1,0 +1,35 @@
+{{define "content"}}
+<div class="admin-projects">
+    <div class="header">
+        <h1>Manage Projects</h1>
+        <a href="/admin/project/new" class="button">New Project</a>
+    </div>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Date</th>
+                <th>Tags</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{range .Projects}}
+            <tr>
+                <td>{{.Title}}</td>
+                <td>{{.Date.Format "2006-01-02"}}</td>
+                <td>{{join .Tags ", "}}</td>
+                <td>
+                    <a href="/admin/project/{{.ID}}/edit">Edit</a>
+                    <form method="POST" action="/admin/project/{{.ID}}/delete" style="display:inline">
+                        <input type="hidden" name="csrf_token" value="{{$.CSRFToken}}">
+                        <button type="submit" onclick="return confirm('Delete this project?')">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {{end}}
+        </tbody>
+    </table>
+</div>
+{{end}}

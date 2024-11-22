@@ -1,0 +1,69 @@
+{{define "content"}}
+<div class="analytics-dashboard">
+    <div class="header">
+        <h1>Analytics Dashboard</h1>
+        <div class="date-filter">
+            <select id="timeRange" onchange="updateAnalytics(this.value)">
+                <option value="7">Last 7 days</option>
+                <option value="30" selected>Last 30 days</option>
+                <option value="90">Last 90 days</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h3>Total Views</h3>
+            <div class="stat-value">{{.Analytics.TotalViews}}</div>
+        </div>
+    </div>
+
+    <div class="charts-grid">
+        <div class="chart-card">
+            <h3>Most Viewed Projects</h3>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Project</th>
+                        <th>Views</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{range $id, $views := .Analytics.ProjectViews}}
+                    <tr>
+                        <td>{{index $.Projects $id).Title}}</td>
+                        <td>{{$views}}</td>
+                    </tr>
+                    {{end}}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="chart-card">
+            <h3>Top Referrers</h3>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Source</th>
+                        <th>Visits</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{range .Analytics.TopReferrers}}
+                    <tr>
+                        <td>{{.Referrer}}</td>
+                        <td>{{.Count}}</td>
+                    </tr>
+                    {{end}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+function updateAnalytics(days) {
+    window.location.href = "/admin/analytics?days=" + days;
+}
+</script>
+{{end}}
